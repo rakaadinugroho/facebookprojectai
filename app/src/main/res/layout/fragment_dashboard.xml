@@ -1,0 +1,32 @@
+<FrameLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="@dimen/small_margin"
+    android:paddingRight="@dimen/small_margin"
+    android:paddingTop="@dimen/big_margin"
+    android:paddingBottom="@dimen/big_margin"
+    tools:context="com.rakaadinugroho.sealmood.core.activities.dashboard.Dashboard">
+    <android.support.v7.widget.RecyclerView
+        android:id="@+id/recycler_dashboard"
+        android:scrollbars="none"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <TextView
+        android:id="@+id/dashboard_no_data"
+        android:visibility="invisible"
+        android:textSize="20sp"
+        android:text="@string/no_data"
+        android:textColor="@color/colorMuted"
+        android:layout_gravity="center_horizontal|center_vertical"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/fab_dashboard_add"
+        android:layout_gravity="end|bottom"
+        android:layout_margin="@dimen/big_margin"
+        android:src="@drawable/ic_add"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content" />
+</FrameLayout>

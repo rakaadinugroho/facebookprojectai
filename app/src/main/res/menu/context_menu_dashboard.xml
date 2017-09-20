@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:title="@string/data_update"
+        android:id="@+id/data_update"/>
+    <item
+        android:title="@string/data_delete"
+        android:id="@+id/data_delete"/>
+</menu>

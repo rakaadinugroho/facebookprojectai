@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="big_margin">16dp</dimen>
+    <dimen name="small_margin">8dp</dimen>
+    <dimen name="calendar_margin">5dp</dimen>
+    <dimen name="calendar_mood">15dp</dimen>
+    <dimen name="fab_margin">16dp</dimen>
+</resources>

@@ -1,0 +1,29 @@
+<resources>
+    <string name="app_name">MoodyApps</string>
+
+    <!-- Import -->
+    <string name="hello_blank_fragment">Hello Blank</string>
+
+
+    <!-- Tab in 1st Dashboard Apps -->
+    <string name="tab_dash">Dashboard</string>
+    <string name="tab_stats">Statistik</string>
+    <string name="tab_calendar">Periodik</string>
+
+    <!-- Button Calendar -->
+    <string name="arrow_back">&lt;</string>
+    <string name="arrow_next">&gt;</string>
+    <string name="month">Bulan / Tahun</string>
+    <string name="no_data">Tidak Ada Data :)</string>
+    <string name="delete_all">Hapus Semua</string>
+    <string name="data_update">Ubah</string>
+    <string name="data_delete">Hapus</string>
+    <string name="data_category_name">Deskripsi</string>
+    <string name="stat_monthly_label">PERIODIC MOOD CHART</string>
+    <string name="title_activity_main">MainActivity</string>
+    <string name="day_note">Catatan hari ini</string>
+    <string name="no_mood_data">Belum ada Record Mood</string>
+    <string name="no_take_picture">Memulai, ambil gambar</string>
+    <string name="facebook_app_id">1999624020253564</string>
+
+</resources>
