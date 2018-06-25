@@ -69,9 +69,9 @@ public class Dashboard extends Fragment implements RealmChangeListener {
         View view   = inflater.inflate(R.layout.fragment_dashboard, container, false);
         initViews(view);
         if (FacebookSdk.isInitialized()){
-            Toast.makeText(mContext, "Terinisialisasi", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "Terinisialisasi", Toast.LENGTH_SHORT).show();
         }else{
-            Toast.makeText(mContext, "Tidak Terinisialisasi", Toast.LENGTH_SHORT).show();
+            //Toast.makeText(mContext, "Tidak Terinisialisasi", Toast.LENGTH_SHORT).show();
         }
         return view;
     }
@@ -84,45 +84,43 @@ public class Dashboard extends Fragment implements RealmChangeListener {
         realm   = Realm.getDefaultInstance();
         mContext    = getContext();
 
-        categories  = realm.where(Category.class).findAll();
-        categories.addChangeListener(this);
+
         total_data  = realm.where(Category.class).count();
         mLogger = AppEventsLogger.newLogger(getContext());
 
         /*
         registerForContextMenu(recyclerDashboard);
          */
-        setUpContent();
-    }
+        adapter = new DashboardAdapter(mContext, categories, R.layout.item_dashboard);
+        layoutManager   = new LinearLayoutManager(mContext);
+        recyclerDashboard.setLayoutManager(layoutManager);
+        recyclerDashboard.setAdapter(adapter);
 
-    private void setUpContent() {
-        if (total_data > 0){
-            adapter = new DashboardAdapter(mContext, categories, R.layout.item_dashboard);
-            layoutManager   = new LinearLayoutManager(mContext);
-            recyclerDashboard.setLayoutManager(layoutManager);
-            recyclerDashboard.setAdapter(adapter);
+        /*
+        Click View Data
+        */
+        adapter.setRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
+            @Override
+            public void onItemClick(int position, View view) {
 
-            /*
-            Click View Data
-            */
-            adapter.setRecyclerViewItemClickListener(new RecyclerViewItemClickListener() {
-                @Override
-                public void onItemClick(int position, View view) {
+                Intent intent   = new Intent(mContext, DayActivity.class);
+                intent.putExtra("id", categories.get(position).getId());
+                startActivity(intent);
 
-                    Intent intent   = new Intent(mContext, DayActivity.class);
-                    intent.putExtra("id", categories.get(position).getId());
-                    startActivity(intent);
-
-                }
-            });
-
-        }else {
+            }
+        });
+        if (total_data <= 0){
             /*
             No Data
              */
             no_data.setVisibility(TextView.VISIBLE);
-
         }
+        setUpContent();
+    }
+
+    private void setUpContent() {
+        categories  = realm.where(Category.class).findAll();
+        categories.addChangeListener(this);
     }
 
     @Override

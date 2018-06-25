@@ -13,6 +13,7 @@ import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.content.FileProvider;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -47,7 +48,7 @@ public class RecognizeActivity extends AppCompatActivity {
     private int dayId;
     private Daily daily;
 
-    private Uri file;
+    private File file;
     private EmotionRestClient emotionRestClient;
 
     private FloatingActionButton recognize_create;
@@ -100,17 +101,25 @@ public class RecognizeActivity extends AppCompatActivity {
 
     private void checkPerm() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.CAMERA) != PackageManager.PERMISSION_GRANTED){
-            recognize_create.setClickable(false);
+            //recognize_create.setClickable(false);
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.CAMERA, Manifest.permission.WRITE_EXTERNAL_STORAGE}, 0);
         }
     }
 
     private void openCamera(){
         Intent intent   = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
-        file    = Uri.fromFile(getOutputMediaFile());
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
-
-        startActivityForResult(intent, PERMISSION_REQUEST_CAMERA);
+        if (intent.resolveActivity(getPackageManager()) != null) {
+            file    = getOutputMediaFile();
+            if (file != null) {
+                Uri photoURI = FileProvider.getUriForFile(this, "com.rakaadinugroho.sealmood.fileprovider", file);
+                intent.putExtra(MediaStore.EXTRA_OUTPUT, file);
+                startActivityForResult(intent, PERMISSION_REQUEST_CAMERA);
+            } else {
+                Toast.makeText(this, "Terjadi Kesalahan", Toast.LENGTH_SHORT).show();
+            }
+        } else {
+            Toast.makeText(this, "Tidak Ada Kamera", Toast.LENGTH_SHORT).show();
+        }
     }
 
     private File getOutputMediaFile() {
@@ -144,7 +153,7 @@ public class RecognizeActivity extends AppCompatActivity {
         loading.setMessage("Analyze Image Running");
         loading.show();
 
-        emotionRestClient.analyze(file, new ResponseCallBack() {
+        emotionRestClient.analyze(Uri.fromFile(file), new ResponseCallBack() {
             @Override
             public void onError(String errormsg) {
                 loading.dismiss();
@@ -198,7 +207,7 @@ public class RecognizeActivity extends AppCompatActivity {
         super.onActivityResult(requestCode, resultCode, data);
         if (requestCode == PERMISSION_REQUEST_CAMERA){
             if (resultCode == RESULT_OK){
-                recognize_image.setImageURI(file);
+                recognize_image.setImageURI(Uri.fromFile(file));
                 recognize_no_data.setVisibility(View.INVISIBLE);
                 Snackbar.make(recognize_coordinate, "Tekan Lama Tombol Kamera Untuk Memproses", Snackbar.LENGTH_LONG).show();
             }
